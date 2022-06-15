@@ -3,6 +3,9 @@ let datas = [];
 let musicsChoices = [];
 let musicsList = [];
 let backgroundListUsed = [];
+let colorList = ['#F2D438','#EEEC76','#89E7D4','#F3EF63','#EEA8B5']
+let colorChoice = '';
+
 
 let background = document.querySelector(".background");
 
@@ -32,6 +35,19 @@ function modelingData(){
       background.style.backgroundImage = `url(${randomBackground})`;
       backgroundListUsed.splice(backgroundListUsed.indexOf(randomBackground), 1);
 
+      if (background.style.backgroundImage === 'url("../img/bg1.jpg")'){
+            colorChoice = colorList[0];
+      }else if (background.style.backgroundImage === 'url("../img/bg2.jpg")'){
+            colorChoice = colorList[1];
+      }else if (background.style.backgroundImage === 'url("../img/bg3.jpg")'){
+            colorChoice = colorList[2];
+      }else if (background.style.backgroundImage === 'url("../img/bg4.jpg")'){
+            colorChoice = colorList[3];
+      }else if (background.style.backgroundImage === 'url("../img/bg5.jpg")'){
+            colorChoice = colorList[4];
+      }
+
+
       for (let index = 0; index < 2; index++) {
             const randomElement = musicsList[Math.floor(Math.random() * musicsList.length)];
             musicsChoices.push(randomElement);
@@ -40,23 +56,32 @@ function modelingData(){
 
       const musicContainer = document.querySelector("#music-container");
 
-      musicsChoices.forEach(music => {
-            const musicElement = document.createElement("div");
-            musicElement.classList.add("music");
-            musicElement.innerHTML = `
+      musicContainer.innerHTML = `
+            <div class="music" data-id="${musicsChoices[0].id}">
                   <div class="music-img">
-                        <img src="${music.imgUrl}" alt="${music.title}">
+                        <img src="${musicsChoices[0].imgUrl}" alt="${musicsChoices[0].title}">
                   </div>
-                  <div class="music-text">
-                        <input type="hidden" value="${music.id}">
-                        <div class="music-title">${music.title}<span> ${music.years}</span></div>
-                        <div class="music-artist">${music.artist}</div> 
-                        <div class="music-nbVote">${music.nbVote}</div>
-                  </div>`;
-                  // add VS between 2 musics and remove forEach musicsChoices
-                  // musicsChoices[0] and [1]
-            musicContainer.append(musicElement);
-      });
+                  <audio src="${musicsChoices[0].audio}"></audio>
+                  <div class="music-text" style="box-shadow: -19px -19px 0px -4px ${colorChoice}, -19px -19px 0px 0px black;">
+                        <input type="hidden" value="${musicsChoices[0].id}">
+                        <div class="music-title">${musicsChoices[0].title}</div>
+                        <div class="music-artist">${musicsChoices[0].artist}</div> 
+                        <div class="music-nbVote">${musicsChoices[0].nbVote}</div>
+                  </div>
+            </div>
+            <h1 class="vs" style="color: ${colorChoice}">VS</h1>
+            <div class="music" data-id="${musicsChoices[1].id}">
+                  <div class="music-img">
+                        <img src="${musicsChoices[1].imgUrl}" alt="${musicsChoices[1].title}">
+                  </div>
+                  <audio src="${musicsChoices[1].audio}"></audio>
+                  <div class="music-text" style="box-shadow: -19px -19px 0px -4px ${colorChoice}, -19px -19px 0px 0px black; ">
+                        <input type="hidden" value="${musicsChoices[1].id}">
+                        <div class="music-title">${musicsChoices[1].title}</div>
+                        <div class="music-artist">${musicsChoices[1].artist}</div> 
+                        <div class="music-nbVote">${musicsChoices[1].nbVote}</div>
+                  </div>
+            </div>`;
 
       handleClick(musicsChoices);
 };
@@ -85,5 +110,11 @@ function handleClick(musicsChoices){
                   musicsChoices = [];
                   modelingData();
             });
+            // el.addEventListener('mouseover', (e) =>{
+            //       el.querySelector("audio").play();
+            //       el.addEventListener('mouseout', (e) =>{
+            //             el.querySelector("audio").pause();
+            //       });
+            // });
       });
 };
